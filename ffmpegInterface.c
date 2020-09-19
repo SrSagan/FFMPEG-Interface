@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 //#include "codecs.h"
 //#include "format.h"
 
@@ -86,12 +87,13 @@ int main()
 		printf("(1) Recortar video/audio\n");
 		printf("(2) Seleccionar streams a convertir\n");
 		printf("(3) Anadir stream de video por archivo externo (proximamente)\n");
-		printf("(4) Seleccionar codec de video (proximamente) %s\n", Vcodec);
-		printf("(5) Seleccionar codec de audio (proximamente)\n");
-		printf("(6) Seleccionar codec de subtitulo (proximamente)\n");
+		printf("(4) Seleccionar codec de video: %s\n", Vcodec);
+		printf("(5) Seleccionar codec de audio: %s\n", Acodec);
+		printf("(6) Seleccionar codec de subtitulo: %s\n", Scodec);
 		printf("(7) Volver al menu principal\n");
 		printf("----------------------------Opciones Avanzadas---------------------------------\n");
 		scanf("%d", &menuOpcionAv);
+		system("cls");
 		
 		//opciones avanzadas
 		switch(menuOpcionAv)
@@ -164,7 +166,9 @@ int main()
 				printf("(Ej: map 0:1) para stream 0 de entrada y stream 1 de salida\nEscriba c para cancelar\n");
 				scanf("%c", &temp);
 				scanf("%[^\n]", map1);
-				if(map1[1] == 'c' || 'C')map1[0] = ' ';
+				if(map1[1] == 'c')map1[0] = ' ';
+				sprintf(temp,"-%s",map1);
+				strcpy(map1, temp);
 				goto streams;
 				break;
 				
@@ -174,7 +178,9 @@ int main()
 				printf("(Ej: map 0:1) para stream 0 de entrada y stream 1 de salida\nEscriba c para cancelar\n");
 				scanf("%c", &temp);
 				scanf("%[^\n]", map2);
-				if(map2[1] == 'c' || 'C')map2[0] = ' ';
+				if(map2[1] == 'c')map2[0] = ' ';
+				sprintf(temp,"-%s",map2);
+				strcpy(map2, temp);
 				goto streams;
 				break;
 				
@@ -184,7 +190,9 @@ int main()
 				printf("(Ej: map 0:1) para stream 0 de entrada y stream 1 de salida\nEscriba c para cancelar\n");
 				scanf("%c", &temp);
 				scanf("%[^\n]", map3);
-				if(map3[1] == 'c' || 'C')map3[0] = ' ';
+				sprintf(temp,"-%s",map3);
+				strcpy(map3, temp);
+				if(map3[1] == 'c')map3[0] = ' ';
 				goto streams;
 				break;
 				
@@ -194,7 +202,7 @@ int main()
 				printf("(Ej: map 0:1) para stream 0 de entrada y stream 1 de salida\nEscriba c para cancelar\n");
 				scanf("%c", &temp);
 				scanf("%[^\n]", map4);
-				if(map4[1] == 'c' || 'C')map4[0] = ' ';
+				if(map4[1] == 'c')map4[0] = ' ';
 				goto streams;
 				break;
 				
@@ -204,7 +212,7 @@ int main()
 				printf("(Ej: map 0:1) para stream 0 de entrada y stream 1 de salida\nEscriba c para cancelar\n");
 				scanf("%c", &temp);
 				scanf("%[^\n]", map5);
-				if(map5[1] == 'c' || 'C')map5[0] = ' ';
+				if(map5[1] == 'c')map5[0] = ' ';
 				goto streams;
 				break;
 				
@@ -226,20 +234,29 @@ int main()
 			case 4:
 			printf("Escriba el codec de video que desea usar\n");
 			printf("Ej: h264\nEscriba C para cancelar\n");
-			scanf("%s", temp);
-			if(temp[0] == 'c' || 'C')goto menuAv;
-			else temp[20] = Vcodec[20];
+			scanf("%c", &temp);
+			scanf("%[^\n]", Vcodec); 
+			if((Vcodec[0] == 'c') || (Vcodec[0] == 'C')) strcpy(Vcodec, "copy");
 			goto menuAv;
 			break;
 			
 			//Seleccionar codec de audio
 			case 5:
+			printf("Escriba el codec de audio que desea usar\n");
+			printf("Ej: mp3\nEscriba C para cancelar\n");
+			scanf("%c", &temp);
+			scanf("%[^\n]", Acodec); 
+			if((Acodec[0] == 'c') || (Acodec[0] == 'C')) strcpy(Acodec, "copy");
 			goto menuAv;
 			break;
 			
 			//Seleccionar codec de sub
 			case 6:
-			//codigo incompleto
+			printf("Escriba el codec de subtitulos que desea usar\n");
+			printf("Ej: mov_text\nEscriba C para cancelar\n");
+			scanf("%c", &temp);
+			scanf("%[^\n]", Scodec); 
+			if((Scodec[0] == 'c') || (Scodec[0] == 'C')) strcpy(Scodec, "copy");
 			goto menuAv;
 			break;
 			
@@ -254,19 +271,20 @@ int main()
 		//Escribir comandos
 		case 5:
 		//comando si se corta el tiempo de inicio
-		if(IncTrue == true)sprintf(cmd,"ffmpeg -i %s -ss %s %s %s %s %s %s -async 1 %s.%s", InFile, IncTime, map1, map2, map3, map4, map5, OutFile, FileFormat);
+		if(IncTrue == true)sprintf(cmd,"ffmpeg -i ""%s"" -ss %s %s %s %s %s %s -c:v %s -c:a %s -c:s %s  -async 1 ""%s.%s""", InFile, IncTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		//comando si se corta el tiempo de fin
-		if(FinTrue == true)sprintf(cmd,"ffmpeg -i %s -to %s %s %s %s %s %s -async 1 %s.%s", InFile, FinTime, map1, map2, map3, map4, map5, OutFile, FileFormat);
+		if(FinTrue == true)sprintf(cmd,"ffmpeg -i ""%s"" -to %s %s %s %s %s %s -c:v %s -c:a %s -c:s %s -async 1 ""%s.%s""", InFile, FinTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		//comando si se corta el tiempo de inicio y de fin
-		if((IncTrue == true) && (FinTrue == true))sprintf(cmd,"ffmpeg -i %s -ss %s -to %s %s %s %s %s %s -async 1 %s.%s", InFile, IncTime, FinTime, map1, map2, map3, map4, map5, OutFile, FileFormat);
+		if((IncTrue == true) && (FinTrue == true))sprintf(cmd,"ffmpeg -i ""%s"" -ss %s -to %s %s %s %s %s %s -c:v %s -c:a %s -c:s %s -async 1 ""%s.%s""", InFile, IncTime, FinTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		//comando si no se corta nada
-		if((IncTrue == false)&&(FinTrue == false))sprintf(cmd,"ffmpeg -i %s %s %s %s %s %s %s.%s", InFile, map1, map2, map3, map4, map5, OutFile, FileFormat);
+		if((IncTrue == false)&&(FinTrue == false))sprintf(cmd,"ffmpeg -i ""%s"" %s %s %s %s %s -c:v %s -c:a %s -c:s %s ""%s.%s""", InFile, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		
 		printf("Se ejecutara el siguiente comando\n%s",cmd);
 		printf("\nEsta usted de acuerdo (S/N)?");
 		scanf("%s", agree);
 		if((agree[0] == 'S') || (agree[0] == 's'))system(cmd);
 		if(agree[0] == 'n' || 'N')goto menu;
+		return 0;
 		break;
 		
 		//menu de ayuda
