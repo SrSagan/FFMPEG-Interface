@@ -163,7 +163,7 @@ int main()
 				//Stream 1
 				case 1:
 				printf("Elija que stream de entrada usar y en que stream de salida se guardara\n");
-				printf("(Ej: map 0:1) para stream 0 de entrada y stream 1 de salida\nEscriba c para cancelar\n");
+				printf("(Ej: map 0:1) para 0 siendo el numero del archivo de entrada y stream 1 siendo el numero de stream en el archivo 0\nEscriba c para cancelar\n");
 				scanf("%c", &temp);
 				scanf("%[^\n]", map1);
 				if(map1[1] == 'c')map1[0] = ' ';
@@ -175,7 +175,7 @@ int main()
 				//Stream 2
 				case 2:
 				printf("Elija que stream de entrada usar y en que stream de salida se guardara\n");
-				printf("(Ej: map 0:1) para stream 0 de entrada y stream 1 de salida\nEscriba c para cancelar\n");
+				printf("(Ej: map 0:1) para 0 siendo el numero del archivo de entrada y stream 1 siendo el numero de stream en el archivo 0\nEscriba c para cancelar\n");
 				scanf("%c", &temp);
 				scanf("%[^\n]", map2);
 				if(map2[1] == 'c')map2[0] = ' ';
@@ -187,32 +187,36 @@ int main()
 				//Stream 3
 				case 3:
 				printf("Elija que stream de entrada usar y en que stream de salida se guardara\n");
-				printf("(Ej: map 0:1) para stream 0 de entrada y stream 1 de salida\nEscriba c para cancelar\n");
+				printf("(Ej: map 0:1) para 0 siendo el numero del archivo de entrada y stream 1 siendo el numero de stream en el archivo 0\nEscriba c para cancelar\n");
 				scanf("%c", &temp);
 				scanf("%[^\n]", map3);
+				if(map3[1] == 'c')map3[0] = ' ';
 				sprintf(temp,"-%s",map3);
 				strcpy(map3, temp);
-				if(map3[1] == 'c')map3[0] = ' ';
 				goto streams;
 				break;
 				
 				//Stream 4
 				case 4:
 				printf("Elija que stream de entrada usar y en que stream de salida se guardara\n");
-				printf("(Ej: map 0:1) para stream 0 de entrada y stream 1 de salida\nEscriba c para cancelar\n");
+				printf("(Ej: map 0:1) para 0 siendo el numero del archivo de entrada y stream 1 siendo el numero de stream en el archivo 0\nEscriba c para cancelar\n");
 				scanf("%c", &temp);
 				scanf("%[^\n]", map4);
 				if(map4[1] == 'c')map4[0] = ' ';
+				sprintf(temp,"-%s",map4);
+				strcpy(map4, temp);
 				goto streams;
 				break;
 				
 				//Stream 5
 				case 5:
 				printf("Elija que stream de entrada usar y en que stream de salida se guardara\n");
-				printf("(Ej: map 0:1) para stream 0 de entrada y stream 1 de salida\nEscriba c para cancelar\n");
+				printf("(Ej: map 0:1) para 0 siendo el numero del archivo de entrada y stream 1 siendo el numero de stream en el archivo 0\nEscriba c para cancelar\n");
 				scanf("%c", &temp);
 				scanf("%[^\n]", map5);
 				if(map5[1] == 'c')map5[0] = ' ';
+				sprintf(temp,"-%s",map5);
+				strcpy(map5, temp);
 				goto streams;
 				break;
 				
@@ -294,7 +298,8 @@ int main()
 		printf("-------------------------------Menu de ayuda-----------------------------------\n");
 		printf("(1) Lista de formatos\n");
 		printf("(2) Lista de codecs\n");
-		printf("(3) Volver al menu principal\n");
+		printf("(3) Autores de FFMPEG\n");
+		printf("(4) Volver al menu principal\n");
 		printf("-------------------------------Menu de ayuda-----------------------------------\n\n");
 
 		scanf("%d", &menuOpcionH);
@@ -321,8 +326,16 @@ int main()
 			goto menuHelp;
 			break;
 			
-			//Volver al menu principal
+			//Info sobre los creadores de FFMPEG
 			case 3:
+			printf("FFMPEG fue creado por el ffmpeg team, y fue lanzado el 20 de diciembre");
+			printf("del 2000. Puedes encontrar mas informacion en ffmpeg.org\nEscriba cualqueir caracter para salir\n");
+			scanf("%s");
+			goto menu;
+			break;
+			
+			//Volver al menu principal
+			case 4:
 			goto menu;
 			break;
 		}
