@@ -9,7 +9,7 @@ int main()
 {
 	bool IncTrue = 0;
 	bool FinTrue = 0;
-	bool SecTrue = 0;
+	bool SecTrue = false;
 	int menuOpcion = 0;
 	int menuOpcionH = 0;
 	int menuOpcionAv = 0;
@@ -91,7 +91,7 @@ int main()
 		printf("----------------------------Opciones Avanzadas---------------------------------\n");
 		printf("(1) Recortar video/audio\n");
 		printf("(2) Seleccionar streams a convertir\n");
-		printf("(3) Anadir stream de video por archivo externo %s\n", SecFile);
+		printf("(3) Anadir stream de video por archivo externo: %s\n", SecFile);
 		printf("(4) Seleccionar codec de video: %s\n", Vcodec);
 		printf("(5) Seleccionar codec de audio: %s\n", Acodec);
 		printf("(6) Seleccionar codec de subtitulo: %s\n", Scodec);
@@ -296,8 +296,8 @@ int main()
 		//Escribir comandos
 		case 5:
 		//comando si se corta el tiempo de inicio
-		if(SecTrue = true){
-		
+		if(SecTrue == true)
+		{
 		if(IncTrue == true)sprintf(cmd,"ffmpeg -i \"%s\"  -i \"%s\" -ss %s %s %s %s %s %s -c:v %s -c:a %s -c:s %s  -async 1 \"%s.%s\"", InFile, SecFile, IncTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		//comando si se corta el tiempo de fin
 		if(FinTrue == true)sprintf(cmd,"ffmpeg -i \"%s\" -i \"%s\" -to %s %s %s %s %s %s -c:v %s -c:a %s -c:s %s -async 1 \"%s.%s\"", InFile, SecFile, FinTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
@@ -305,8 +305,6 @@ int main()
 		if((IncTrue == true) && (FinTrue == true))sprintf(cmd,"ffmpeg -i \"%s\" -i \"%s\" -ss %s -to %s %s %s %s %s %s -c:v %s -c:a %s -c:s %s -async 1 \"%s.%s\"", InFile, SecFile, IncTime, FinTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		//comando si no se corta nada
 		if((IncTrue == false) && (FinTrue == false))sprintf(cmd,"ffmpeg -i \"%s\" -i \"%s\" %s %s %s %s %s -c:v %s -c:a %s -c:s %s \"%s.%s\"", InFile, SecFile, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
-		
-		
 		}
 		else{
 		
