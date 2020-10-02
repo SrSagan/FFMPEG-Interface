@@ -2,8 +2,27 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <Windows.h>
 //#include "codecs.h"
 //#include "format.h"
+#include "colours.h"
+
+/*colores
+1 = azul oscuro
+2 = verde oscuro
+3 = cyan oscuro
+4 = rojo oscuro
+5 = violeta oscuro
+6 = dorado oscuro
+7 = blanco oscuro (standart)
+8 = gris
+9 = azul
+10 = verde
+11 = cyan
+12 = rojo
+13 = violeta
+14 = dorado
+15 = blanco*/
 
 int main()
 {
@@ -36,17 +55,21 @@ int main()
 	//menu principal
 	menu:
 	system("cls");
+	SetColour(9);
 	printf("-------------------------------------MENU--------------------------------------\n");
-	printf("(1) Seleccionar ubicacion del archivo de entrada\n");
-	printf("(2) Seleccionar ubicacion del archivo de salida\n");
-	printf("(3) Seleccionar formato de archivo: %s\n", FileFormat);
-	printf("(4) Opciones avanzadas\n"); 
-	printf("(5) Convertir\n");
-	printf("(6) Ayuda\n");
+	MenuOp(1, "Seleccionar ubicacion del archivo de entrada:", InFile);
+	MenuOp(2, "Seleccionar ubicacion del archivo de salida:", OutFile);
+	MenuOp(3, "Seleccionar formato de archivo:", FileFormat);
+	MenuOp(4, "Opciones avanzadas", ""); 
+	MenuOp(5, "Convertir", "");
+	MenuOp(6, "Ayuda", "");
+	SetColour(9);
 	printf("-------------------------------------MENU--------------------------------------\n\n");
+	SetColour(7);
 	
 	printf("Archivo de entrada: %s\n", InFile);
 	printf("Archivo de salida: %s.%s\n\n", OutFile, FileFormat);
+	
 
 	scanf("%d", &menuOpcion);
 	system("cls");
@@ -88,15 +111,18 @@ int main()
 		case 4:
 		menuAv:
 		system("cls");
+		SetColour(1);
 		printf("----------------------------Opciones Avanzadas---------------------------------\n");
-		printf("(1) Recortar video/audio\n");
-		printf("(2) Seleccionar streams a convertir\n");
-		printf("(3) Anadir stream de video por archivo externo: %s\n", SecFile);
-		printf("(4) Seleccionar codec de video: %s\n", Vcodec);
-		printf("(5) Seleccionar codec de audio: %s\n", Acodec);
-		printf("(6) Seleccionar codec de subtitulo: %s\n", Scodec);
-		printf("(7) Volver al menu principal\n");
+		MenuOp(1, "Recortar video/audio", "");
+		MenuOp(2, "Seleccionar streams a convertir", "");
+		MenuOp(3, "Anadir stream de video por archivo externo", "");
+		MenuOp(4, "Seleccionar codec de video:", Vcodec);
+		MenuOp(5, "Seleccionar codec de audio:", Acodec);
+		MenuOp(6, "Seleccionar codec de subtitulo:", Scodec);
+		MenuOp(7, "Volver al menu principal", "");
+		SetColour(1);
 		printf("----------------------------Opciones Avanzadas---------------------------------\n");
+		SetColour(7);
 		scanf("%d", &menuOpcionAv);
 		system("cls");
 		
@@ -109,11 +135,14 @@ int main()
 			case 1:
 			menuRec:
 			system("cls");
+			SetColour(1);
 			printf("---------------------------------Recortar--------------------------------------\n");
-			printf("(1) Seleccionar donde desea que comience su archivo: %s\n", IncTime);
-			printf("(2) Seleccionar donde desea que termine su archivo: %s\n", FinTime);
-			printf("(3) Volver a las opciones avanzadas\n");
+			MenuOp(1, "Seleccionar donde desea que comience su archivo:", IncTime);
+			MenuOp(2, "Seleccionar donde desea que termine su archivo:", FinTime);
+			MenuOp(3, "Volver a las opciones avanzadas", "");
+			SetColour(1);
 			printf("---------------------------------Recortar--------------------------------------\n");
+			SetColour(7);
 			
 			scanf("%d", &menuOpcionRec);
 			system("cls");
@@ -151,14 +180,17 @@ int main()
 			case 2:
 			streams:
 			system("cls");
+			SetColour(1);
 			printf("----------------------------------Streams--------------------------------------\n");
-			printf("(1) Modificar stream: %s\n", map1);
-			printf("(2) Modificar stream: %s\n", map2);
-			printf("(3) Modificar stream: %s\n", map3);
-			printf("(4) Modificar stream: %s\n", map4);
-			printf("(5) Modificar stream: %s\n", map5);
-			printf("(6) Volver a las opciones avanzadas\n");
+			MenuOp(1 ,"Modificar stream:", map1);
+			MenuOp(2 ,"Modificar stream:", map2);
+			MenuOp(3 ,"Modificar stream:", map3);
+			MenuOp(4 ,"Modificar stream:", map4);
+			MenuOp(5 ,"Modificar stream:", map5);
+			MenuOp(6 ,"Volver a las opciones avanzadas", "");
+			SetColour(1);
 			printf("----------------------------------Streams--------------------------------------\n");
+			SetColour(7);
 			
 			scanf("%d", &menuOpcionSt);
 			system("cls");
