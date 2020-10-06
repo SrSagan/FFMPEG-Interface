@@ -30,9 +30,9 @@ int main()
 	char map3[20] = "";
 	char map4[20] = "";
 	char map5[20] = "";
-	char Vcodec[20] = "copy";
-	char Acodec[20] = "copy";
-	char Scodec[20] = "copy";
+	char Vcodec[20] = "";
+	char Acodec[20] = "";
+	char Scodec[20] = "";
 	char IncTime[100] = "00:00:00";
 	char FinTime[100] = "";
 	char SecFile[200] = "";
@@ -137,8 +137,9 @@ int main()
 				case 1:
 				printf("Escriba el tiempo donde quiere que comienze su archivo\n");
 				printf("(Ej: 00:01:15) El archivo comenzara en los 15 Seg. 1 Min.\nEscriba c para cancelar\n");
-				scanf("%s", IncTime);
-				if(IncTime[1] == 'c' || 'C')IncTime[0] = '0';
+				scanf("%c", &temp);
+				scanf("%[^\n]", IncTime);
+				if((IncTime[0] == 'c') || (IncTime[0] == 'C')) strcpy(IncTime, " ");
 				else IncTrue = true;
 				goto menuRec;
 				break;
@@ -147,8 +148,9 @@ int main()
 				case 2:
 				printf("Escriba el tiempo donde terminara su archivo\n");
 				printf("(Ej: 00:02:30) El archivo terminara a los 2 Min. 30 Seg.\nEscriba c para cancelar\n");
-				scanf("%s", FinTime);
-				if(FinTime[1] == 'c' || 'C')FinTime[0] = ' ';
+				scanf("%c", &temp);
+				scanf("%[^\n]", FinTime);
+				if((FinTime[0] == 'c') || (FinTime[0] == 'C')) strcpy(FinTime, " ");
 				else FinTrue = true;
 				goto menuRec;
 				break;
@@ -277,8 +279,9 @@ int main()
 			printf("Escriba el codec de video que desea usar\n");
 			printf("Ej: h264\nEscriba C para cancelar\n");
 			scanf("%c", &temp);
-			scanf("%[^\n]", Vcodec); 
-			if((Vcodec[0] == 'c') || (Vcodec[0] == 'C')) strcpy(Vcodec, "copy");
+			scanf("%[^\n]", Vcodec);
+			sprintf(temp,"-c:v %s",Vcodec);
+			strcpy(Vcodec, temp);
 			goto menuAv;
 			break;
 			
@@ -287,8 +290,9 @@ int main()
 			printf("Escriba el codec de audio que desea usar\n");
 			printf("Ej: mp3\nEscriba C para cancelar\n");
 			scanf("%c", &temp);
-			scanf("%[^\n]", Acodec); 
-			if((Acodec[0] == 'c') || (Acodec[0] == 'C')) strcpy(Acodec, "copy");
+			scanf("%[^\n]", Acodec);
+			sprintf(temp,"-c:a %s",Acodec);
+			strcpy(Acodec, temp);
 			goto menuAv;
 			break;
 			
@@ -297,8 +301,9 @@ int main()
 			printf("Escriba el codec de subtitulos que desea usar\n");
 			printf("Ej: mov_text\nEscriba C para cancelar\n");
 			scanf("%c", &temp);
-			scanf("%[^\n]", Scodec); 
-			if((Scodec[0] == 'c') || (Scodec[0] == 'C')) strcpy(Scodec, "copy");
+			scanf("%[^\n]", Scodec);
+			sprintf(temp,"-c:s %s",Scodec);
+			strcpy(Scodec, temp);
 			goto menuAv;
 			break;
 			
@@ -315,23 +320,23 @@ int main()
 		//comando si se corta el tiempo de inicio
 		if(SecTrue == true)
 		{
-		if(IncTrue == true)sprintf(cmd,"ffmpeg -i \"%s\"  -i \"%s\" -ss %s %s %s %s %s %s -c:v %s -c:a %s -c:s %s  -async 1 \"%s.%s\"", InFile, SecFile, IncTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
+		if(IncTrue == true)sprintf(cmd,"ffmpeg -i \"%s\"  -i \"%s\" -ss %s %s %s %s %s %s %s %s  %s  -async 1 \"%s.%s\"", InFile, SecFile, IncTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		//comando si se corta el tiempo de fin
-		if(FinTrue == true)sprintf(cmd,"ffmpeg -i \"%s\" -i \"%s\" -to %s %s %s %s %s %s -c:v %s -c:a %s -c:s %s -async 1 \"%s.%s\"", InFile, SecFile, FinTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
+		if(FinTrue == true)sprintf(cmd,"ffmpeg -i \"%s\" -i \"%s\" -to %s %s %s %s %s %s  %s  %s  %s -async 1 \"%s.%s\"", InFile, SecFile, FinTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		//comando si se corta el tiempo de inicio y de fin
-		if((IncTrue == true) && (FinTrue == true))sprintf(cmd,"ffmpeg -i \"%s\" -i \"%s\" -ss %s -to %s %s %s %s %s %s -c:v %s -c:a %s -c:s %s -async 1 \"%s.%s\"", InFile, SecFile, IncTime, FinTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
+		if((IncTrue == true) && (FinTrue == true))sprintf(cmd,"ffmpeg -i \"%s\" -i \"%s\" -ss %s -to %s %s %s %s %s %s  %s  %s  %s -async 1 \"%s.%s\"", InFile, SecFile, IncTime, FinTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		//comando si no se corta nada
-		if((IncTrue == false) && (FinTrue == false))sprintf(cmd,"ffmpeg -i \"%s\" -i \"%s\" %s %s %s %s %s -c:v %s -c:a %s -c:s %s \"%s.%s\"", InFile, SecFile, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
+		if((IncTrue == false) && (FinTrue == false))sprintf(cmd,"ffmpeg -i \"%s\" -i \"%s\" %s %s %s %s %s  %s  %s  %s \"%s.%s\"", InFile, SecFile, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		}
 		else{
 		
-		if(IncTrue == true)sprintf(cmd,"ffmpeg -i \"%s\" -ss %s %s %s %s %s %s -c:v %s -c:a %s -c:s %s  -async 1 \"%s.%s\"", InFile, IncTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
+		if(IncTrue == true)sprintf(cmd,"ffmpeg -i \"%s\" -ss %s %s %s %s %s %s  %s  %s  %s  -async 1 \"%s.%s\"", InFile, IncTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		//comando si se corta el tiempo de fin
-		if(FinTrue == true)sprintf(cmd,"ffmpeg -i \"%s\" -to %s %s %s %s %s %s -c:v %s -c:a %s -c:s %s -async 1 \"%s.%s\"", InFile, FinTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
+		if(FinTrue == true)sprintf(cmd,"ffmpeg -i \"%s\" -to %s %s %s %s %s %s  %s  %s  %s -async 1 \"%s.%s\"", InFile, FinTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		//comando si se corta el tiempo de inicio y de fin
-		if((IncTrue == true) && (FinTrue == true))sprintf(cmd,"ffmpeg -i \"%s\" -ss %s -to %s %s %s %s %s %s -c:v %s -c:a %s -c:s %s -async 1 \"%s.%s\"", InFile, IncTime, FinTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
+		if((IncTrue == true) && (FinTrue == true))sprintf(cmd,"ffmpeg -i \"%s\" -ss %s -to %s %s %s %s %s %s  %s  %s  %s -async 1 \"%s.%s\"", InFile, IncTime, FinTime, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		//comando si no se corta nada
-		if((IncTrue == false)&&(FinTrue == false))sprintf(cmd,"ffmpeg -i \"%s\" %s %s %s %s %s -c:v %s -c:a %s -c:s %s \"%s.%s\"", InFile, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
+		if((IncTrue == false)&&(FinTrue == false))sprintf(cmd,"ffmpeg -i \"%s\" %s %s %s %s %s  %s  %s  %s \"%s.%s\"", InFile, map1, map2, map3, map4, map5, Vcodec, Acodec, Scodec, OutFile, FileFormat);
 		
 		}
 		
