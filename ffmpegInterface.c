@@ -160,6 +160,10 @@ int main()
 				goto menuAv;
 				break;
 				
+				default:
+				goto menuRec;
+				break;
+				
 			}
 			break;
 			
@@ -260,6 +264,10 @@ int main()
 				goto menuAv;
 				break;
 				
+				default:
+				goto streams;
+				break;
+				
 			}
 			break;
 			
@@ -310,6 +318,10 @@ int main()
 			//Volver al menu principal
 			case 7:
 			goto menu;
+			break;
+			
+			default:
+			goto menuAv;
 			break;
 			
 		}
@@ -389,7 +401,7 @@ int main()
 			//Info sobre los creadores de FFMPEG
 			case 3:
 			printf("FFMPEG fue creado por el ffmpeg team, y fue lanzado el 20 de diciembre");
-			printf("del 2000. Puedes encontrar mas informacion en ffmpeg.org\nEscriba cualqueir caracter para salir\n");
+			printf("del 2000. Puedes encontrar mas informacion en ffmpeg.org\nEscriba cualquier caracter para salir\n");
 			scanf("%s");
 			goto menu;
 			break;
@@ -397,6 +409,10 @@ int main()
 			//Volver al menu principal
 			case 4:
 			goto menu;
+			break;
+			
+			default:
+			goto menuHelp;
 			break;
 		}
 		break;
